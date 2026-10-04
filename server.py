@@ -5,8 +5,8 @@
 from flask import Flask, render_template, request
 from SentimentAnalysis.sentiment_analysis import sentiment_analyzer
 
-#Initiate the flask app :
-app = Flask("Sentiment Analyzer")
+#Initiate the flask app:
+app = Flask("Sentiment Analysis")
 
 @app.route("/sentimentAnalyzer")
 def sent_analyzer():
@@ -20,10 +20,13 @@ def sent_analyzer():
     label = response['label']
     score = response['score']
 
+    if text_to_analyze == '':
+        return "Input is empty!"
+
     if label is None:
         return "Invalid input! Try again."
-    else:
-        return f"The text was qualified as {label} with a score of {score}."
+
+    return f"The text was qualified as {label} with a score of {score}."
 
 @app.route("/")
 def render_index_page():
@@ -33,6 +36,4 @@ def render_index_page():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    ''' This functions executes the flask app and deploys it on localhost:5000
-    '''
     app.run(host="0.0.0.0", port=5000)
